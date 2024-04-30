@@ -2,7 +2,7 @@ import { type PrismaClient } from '@prisma/client';
 import createDebug from 'debug';
 import { HttpError } from '../middleware/errors.middleware.js';
 import { type User, type UserCreateDto } from '../entities/user.js';
-import { type WithLoginRepo } from './repo.js';
+import { type WithLoginRepo } from './baseRepo.js';
 
 const debug = createDebug('BOOKS:users:repository:sql');
 

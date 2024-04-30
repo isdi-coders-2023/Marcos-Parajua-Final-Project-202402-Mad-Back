@@ -4,7 +4,7 @@ const config = {
   coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: [
     'index.ts',
-    'repo.ts',
+    'baseRepo.ts',
     'entities',
     'interface',
     'tools',
