@@ -1,4 +1,4 @@
-import { createApp } from './app';
+import { createApp } from './app.js';
 
 describe('Given the function createApp ', () => {
   test('Then it should be call and return app', () => {
