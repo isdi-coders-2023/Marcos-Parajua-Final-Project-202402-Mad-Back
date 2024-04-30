@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { type UserCreateDto, type UserUpdateDto } from './user';
+import { type UserCreateDto, type UserUpdateDto } from './user.js';
 
 export const userCreateDtoSchema = Joi.object<UserCreateDto>({
   name: Joi.string().required(),
@@ -7,7 +7,6 @@ export const userCreateDtoSchema = Joi.object<UserCreateDto>({
   password: Joi.string().required(),
   repeatPassword: Joi.string().required(),
   avatar: Joi.string().allow('', null),
-
   role: Joi.string().valid('admin', 'user').required(),
 });
 
@@ -17,6 +16,5 @@ export const userUpdateDtoSchema = Joi.object<UserUpdateDto>({
   password: Joi.string(),
   repeatPassword: Joi.string(),
   avatar: Joi.string().allow('', null),
-
   role: Joi.string().valid('admin', 'user'),
 });
