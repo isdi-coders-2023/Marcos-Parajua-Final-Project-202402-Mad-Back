@@ -115,4 +115,19 @@ describe('Given a instance of the class UsersSqlRepo', () => {
       );
     });
   });
+  describe('When we use the method create', () => {
+    test('Then it should call prisma.create', async () => {
+      (mockPrisma.user.create as jest.Mock).mockRejectedValueOnce(
+        new Error('Failed to create user')
+      );
+
+      const data = {} as unknown as UserCreateDto;
+
+      await expect(repo.create(data)).rejects.toThrow(
+        new HttpError(500, 'Internal Server Error', 'Failed to create user')
+      );
+
+      expect(mockPrisma.user.create).toHaveBeenCalled();
+    });
+  });
 });
