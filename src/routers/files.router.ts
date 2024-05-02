@@ -15,7 +15,7 @@ export class FilesRouter {
 
     this.router.post(
       '/',
-      interceptor.singleFile('avatar').bind(interceptor),
+      interceptor.singleFile('avatar'),
       interceptor.upload.bind(interceptor),
       controller.fileHandler.bind(controller)
     );
