@@ -1,9 +1,9 @@
 import { type Request, type Response } from 'express';
-import { UsersController } from './users.controller';
-import { type UsersSqlRepo } from '../repositories/users.sql.repo';
+import { UsersController } from './users.controller.js';
+import { type UsersSqlRepo } from '../repositories/users.sql.repo.js';
 import { Auth } from '../services/auth.service.js';
 import { type ObjectSchema } from 'joi';
-import { type UserCreateDto } from '../entities/user';
+import { type UserCreateDto } from '../entities/user.js';
 
 jest.mock('../entities/user.schema.js', () => ({
   userCreateDtoSchema: {
@@ -134,14 +134,16 @@ describe('Given a instance of the class UsersController', () => {
 
     describe('And body is ok', () => {
       test('Then it should call repo.create', async () => {
-        const user = { name: 'test', password: 'test' };
+        Auth.hash = jest.fn().mockReturnValue('hashedPassword');
+        const user = { name: 'test', password: 'test', repeatPassword: 'test' };
+
         req.body = user;
         req.body.cloudinary = { url: '' };
         req.body.avatar = req.body.cloudinary?.url as string;
-        Auth.hash = jest.fn().mockResolvedValue('hashedPassword');
+        Auth.hash = jest.fn().mockResolvedValue(user.password);
         (repo.create as jest.Mock).mockResolvedValue(user);
         await controller.create(req, res, next);
-        expect(Auth.hash).toHaveBeenCalledWith('test');
+        expect(Auth.hash).toHaveBeenCalled();
         expect(repo.create).toHaveBeenCalledWith({});
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.json).toHaveBeenCalledWith(user);

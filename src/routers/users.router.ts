@@ -19,7 +19,7 @@ export class UsersRouter {
     this.router.post(
       '/signup',
       filesInterceptor.singleFile('avatar'),
-
+      filesInterceptor.cloudUpload.bind(filesInterceptor),
       controller.create.bind(controller)
     );
     this.router.post('/login', controller.login.bind(controller));
