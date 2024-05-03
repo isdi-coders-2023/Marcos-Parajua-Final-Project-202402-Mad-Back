@@ -1,7 +1,7 @@
 import { Router as createRouter } from 'express';
 import createDebug from 'debug';
-import { type FilesController } from '../controllers/files.controller.js';
-import { type FilesInterceptor } from '../middleware/files.interceptor.js';
+import { type FilesController } from '../controllers/files.controller';
+import { type FilesInterceptor } from '../middleware/files.interceptor';
 
 const debug = createDebug('BOOKS:files:router');
 export class FilesRouter {
@@ -16,7 +16,7 @@ export class FilesRouter {
     this.router.post(
       '/',
       interceptor.singleFile('avatar').bind(interceptor),
-      interceptor.upload.bind(interceptor),
+      interceptor.cloudUpload.bind(interceptor),
       controller.fileHandler.bind(controller)
     );
   }

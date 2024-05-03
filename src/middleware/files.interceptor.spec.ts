@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { type Request, type Response } from 'express';
-import { FilesInterceptor } from './files.interceptor.js';
-import multer, { type MulterError } from 'multer';
+import { FilesInterceptor } from './files.interceptor';
+import multer from 'multer';
 import { v2 } from 'cloudinary';
-import { HttpError } from './errors.middleware.js';
 
 jest.mock('multer');
 jest.mock('cloudinary');
@@ -23,7 +21,7 @@ describe('Given a instance of the class FilesInterceptor', () => {
     const mockMiddleware = jest.fn();
 
     multer.diskStorage = jest.fn().mockImplementation(({ filename }) =>
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
       filename('', '', () => {
         //
       })
@@ -44,21 +42,37 @@ describe('Given a instance of the class FilesInterceptor', () => {
       upload: jest.fn().mockResolvedValue({}),
     } as unknown as typeof v2.uploader;
 
+    describe('And file is not valid', () => {
+      test('Then it should call next with an error', async () => {
+        req.file = undefined;
+        await interceptor.cloudUpload(req, res, next);
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            message: 'No file uploaded',
+          })
+        );
+      });
+    });
+
     describe('And file is valid', () => {
       test('Then it should call next', async () => {
         req.file = {} as unknown as Express.Multer.File;
-        await interceptor.upload(req, res, next);
+        await interceptor.cloudUpload(req, res, next);
         expect(v2.uploader.upload).toHaveBeenCalled();
         expect(next).toHaveBeenCalled();
       });
     });
-    describe('And file is not valid', () => {
-      test('Then it should call next', async () => {
-        req.file = undefined;
-        await interceptor.upload(req, res, next);
-        expect(v2.uploader.upload).toHaveBeenCalled();
+
+    describe('And upload fails', () => {
+      test('Then it should call next with an error', async () => {
+        req.file = {} as unknown as Express.Multer.File;
+        const error = new Error('Upload failed');
+        v2.uploader.upload = jest.fn().mockRejectedValue(error);
+        await interceptor.cloudUpload(req, res, next);
         expect(next).toHaveBeenCalledWith(
-          new HttpError(400, 'Bad Request', 'No file uploaded')
+          expect.objectContaining({
+            message: error.message,
+          })
         );
       });
     });

@@ -78,10 +78,6 @@ export class UsersSqlRepo implements WithLoginRepo<User, UserCreateDto> {
   }
 
   async create(data: UserCreateDto): Promise<User> {
-    if (data.password !== data.repeatPassword) {
-      throw new HttpError(400, 'Bad Request', 'Passwords do not match');
-    }
-
     try {
       const newUser = await this.prisma.user.create({ data, select });
       return newUser as User;

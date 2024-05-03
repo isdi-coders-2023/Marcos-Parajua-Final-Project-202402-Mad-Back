@@ -67,6 +67,11 @@ export class UsersController extends BaseController<User, UserCreateDto> {
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
+    if (req.body.password !== req.body.repeatPassword) {
+      next(new HttpError(400, 'Bad Request', 'Passwords do not match'));
+      return;
+    }
+
     if (!req.body.password || typeof req.body.password !== 'string') {
       next(
         new HttpError(
@@ -79,8 +84,6 @@ export class UsersController extends BaseController<User, UserCreateDto> {
     }
 
     req.body.password = await Auth.hash(req.body.password as string);
-
-    req.body.avatar = req.body.cloudinary?.url as string;
 
     await super.create(req, res, next);
   }

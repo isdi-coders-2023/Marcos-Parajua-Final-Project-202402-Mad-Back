@@ -1,18 +1,20 @@
-import { type FilesController } from '../controllers/files.controller.js';
-import { type AuthInterceptor } from '../middleware/auth.interceptor.js';
-import { type FilesInterceptor } from '../middleware/files.interceptor.js';
 import { FilesRouter } from './files.router.js';
+import { type FilesController } from '../controllers/files.controller.js';
+import { type FilesInterceptor } from '../middleware/files.interceptor.js';
 
-describe('Given a instance of the class FilesRouter', () => {
+describe('Given an instance of the class FilesRouter', () => {
   const controller = {
     fileHandler: jest.fn(),
   } as unknown as FilesController;
+
   const interceptor = {
-    singleFile: jest.fn().mockReturnValue(jest.fn()),
-    upload: jest.fn(),
+    singleFile: jest.fn(() => jest.fn()),
+    cloudUpload: jest.fn(),
   } as unknown as FilesInterceptor;
+
   const router = new FilesRouter(controller, interceptor);
-  test('Then it should be instance of the class', () => {
+
+  test('Then it should be an instance of the class', () => {
     expect(router).toBeInstanceOf(FilesRouter);
   });
 });

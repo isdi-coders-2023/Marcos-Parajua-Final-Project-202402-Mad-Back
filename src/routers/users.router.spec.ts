@@ -17,7 +17,7 @@ describe('Given a instance of the class UsersRouter', () => {
   } as unknown as AuthInterceptor;
   const fileInterceptor: FilesInterceptor = {
     singleFile: jest.fn().mockReturnValue(jest.fn()),
-    upload: jest.fn(),
+    cloudUpload: jest.fn(),
   } as unknown as FilesInterceptor;
   const router = new UsersRouter(controller, authInterceptor, fileInterceptor);
   test('Then it should be instance of the class', () => {
