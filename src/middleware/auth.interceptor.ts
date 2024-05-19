@@ -61,7 +61,7 @@ export class AuthInterceptor {
       req.body = rest;
 
       const { role } = payload;
-      if (role === 'admin') {
+      if (role === 'user') {
         next();
         return;
       }

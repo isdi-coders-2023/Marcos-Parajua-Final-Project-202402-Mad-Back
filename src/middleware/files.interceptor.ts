@@ -42,7 +42,12 @@ export class FilesInterceptor {
     };
 
     if (!req.file) {
-      next(new HttpError(400, 'Bad request', 'No file uploaded'));
+      if (req.method === 'POST') {
+        next(new HttpError(400, 'Bad request', 'No file uploaded'));
+        return;
+      }
+
+      next();
       return;
     }
 

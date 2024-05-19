@@ -62,7 +62,7 @@ export abstract class BaseController<T, C> {
 
   async update(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
-    const data = req.body as C;
+    const data = req.body as Partial<C>;
 
     const { error } = this.validateUpdateDtoSchema.validate(data, {
       abortEarly: false,
