@@ -26,7 +26,8 @@ export const startApp = (app: Express, prisma: PrismaClient) => {
   app.use(morgan('dev'));
   app.use(
     cors({
-      origin: 'https://hyph4e.netlify.app/',
+      origin: 'https://hyph4e.netlify.app',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       credentials: true,
     })
   );
