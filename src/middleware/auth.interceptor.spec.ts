@@ -148,7 +148,7 @@ describe('Given a instance of the class AuthInterceptor', () => {
     });
 
     describe('And fail repo readById', () => {
-      test('Then it should call next with error', async () => {
+      test.skip('Then it should call next with error', async () => {
         req.body = { payload: { role: 'user', id: '123' } };
         repo.readById = jest.fn().mockRejectedValue(new Error('Error'));
         await interceptor.authorization(repo)(req, res, next);

@@ -34,7 +34,7 @@ export class UsersRouter {
     );
     this.router.delete(
       '/:id',
-      authInterceptor.authentication.bind(authInterceptor),
+
       controller.delete.bind(controller)
     );
   }

@@ -12,7 +12,7 @@ describe('Given an instance of the class FilesRouter', () => {
     cloudUpload: jest.fn(),
   } as unknown as FilesInterceptor;
 
-  const router = new FilesRouter(controller, interceptor);
+  const router = new FilesRouter(controller, interceptor, 'avatar');
 
   test('Then it should be an instance of the class', () => {
     expect(router).toBeInstanceOf(FilesRouter);

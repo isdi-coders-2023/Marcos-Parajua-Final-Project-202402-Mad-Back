@@ -37,7 +37,7 @@ model Book {
   author      String
   year        Int
   isbn        String   @unique
-  coverUrl    String
+  avatar    String?
   description String
 }
 
@@ -45,9 +45,10 @@ model Article {
   id          String   @id @default(cuid()) 
   title       String
   subtitle    String?
-  imageUrl    String?
+  avatar    String?
   author      User     @relation(fields: [authorId], references: [id])
   authorId    String
+  maker       String?
   content     String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

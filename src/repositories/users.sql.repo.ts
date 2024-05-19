@@ -17,7 +17,7 @@ const select = {
       id: true,
       title: true,
       subtitle: true,
-      imageUrl: true,
+      avatar: true,
       content: true,
       author: {
         select: {
