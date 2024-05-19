@@ -24,7 +24,12 @@ export const startApp = (app: Express, prisma: PrismaClient) => {
   debug('Starting app');
   app.use(express.json());
   app.use(morgan('dev'));
-  app.use(cors());
+  app.use(
+    cors({
+      origin: 'https://hyph4e.netlify.app/',
+      credentials: true,
+    })
+  );
   app.use(express.static('public'));
 
   const authInterceptor = new AuthInterceptor();
