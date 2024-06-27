@@ -14,6 +14,9 @@ import { FilesRouter } from './routers/files.router.js';
 import { ArticlesController } from './controllers/articles.controller.js';
 import { ArticlesSqlRepo } from './repositories/articles.sql.repo.js';
 import { ArticlesRouter } from './routers/articles.router.js';
+import { BooksController } from './controllers/books.controller.js';
+import { BooksSqlRepo } from './repositories/books.sql.repo.js';
+import { BooksRouter } from './routers/books.router.js';
 
 export const createApp = () => {
   debug('Creating app');
@@ -61,6 +64,15 @@ export const startApp = (app: Express, prisma: PrismaClient) => {
     filesInterceptor,
     'avatar'
   );
+
+  const booksRepo = new BooksSqlRepo(prisma);
+  const booksController = new BooksController(booksRepo);
+  const booksRouter = new BooksRouter(
+    booksController,
+    authInterceptor,
+    filesInterceptor
+  );
+  app.use('/books', booksRouter.router);
 
   app.use('/files', filesRouter.router);
   const errorsMiddleware = new ErrorsMiddleware();

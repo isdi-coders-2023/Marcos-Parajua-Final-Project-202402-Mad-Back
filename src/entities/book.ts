@@ -4,7 +4,7 @@ export type Book = {
   author: string;
   year: number;
   isbn: string;
-  coverUrl: string;
+  avatar: string;
   description: string;
 };
 export type BookCreateDto = Omit<Book, 'id'>;
